@@ -36,14 +36,14 @@ public class ShorthestPath {
                         .map(newPoint -> {
                             var array = new ArrayList<>(path.getPointList());
                             array.add(newPoint);
-                            return new Path(getCost(grid, newPoint), array);
+                            return new Path(getCost(grid, newPoint) + path.getTotalCost(), array);
                         })
                         .collect(Collectors.toList())
                 )
                 .orElse(new ArrayList<>());
     }
 
-    public static void search(Grid<Long> grid, Point start, Point end) {
+    public static Path search(Grid<Long> grid, Point start, Point end) {
         var path = new Path(0L, Arrays.asList(start));
 
         var calculatedPaths = new ArrayList<Path>();
@@ -66,9 +66,7 @@ public class ShorthestPath {
                     .map(Optional::of)
                     .ifPresent(foundPath::set);
         }
-
-        System.out.println(foundPath.get().get());
-
+        return foundPath.get().get();
     }
 
 }
