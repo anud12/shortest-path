@@ -1,7 +1,6 @@
 package ro.anud.shortestpath;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class ShorthestPath {
                 new Point(start.getX() - 1, start.getY()));
     }
 
-    private static List<Path> generatePaths(Path path, Grid<Long> grid, Collection<Point> ignoreList) {
+    private static Stream<Path> generatePaths(Path path, Grid<Long> grid, Collection<Point> ignoreList) {
         return path.getLastPoint()
                 .map(point -> adjacentPoints(point)
                         .filter(newPoint -> newPoint.getX() >= 0
@@ -41,9 +40,8 @@ public class ShorthestPath {
                             ignoreList.add(point);
                             return new Path(getCost(grid, newPoint) + path.getTotalCost(), array);
                         })
-                        .collect(Collectors.toList())
                 )
-                .orElse(new ArrayList<>());
+                .orElse(Stream.empty());
     }
 
     public static Path search(Grid<Long> grid, Point start, Point end) {
@@ -51,32 +49,19 @@ public class ShorthestPath {
         var usedPoints = new HashSet<Point>();
         usedPoints.add(start);
 
-        var calculatedPaths = new HashSet<Path>();
-        var paths = generatePaths(path, grid, usedPoints);
+        var paths = generatePaths(path, grid, usedPoints).collect(Collectors.toList());
         var foundPath = new AtomicReference<Optional<Path>>(empty());
-        var pathSize = new AtomicInteger();
-        new Thread(() -> {
-            while (foundPath.get().isEmpty()){
-                System.out.println(pathSize);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }).start();
-        while (foundPath.get().isEmpty()) {
+        while (foundPath.get().isEmpty() &&
+                !paths.isEmpty()) {
             paths = paths.stream()
                     .sorted(Comparator.comparingLong(Path::getTotalCost))
-//                    .filter(Predicate.not(calculatedPaths::contains))
                     .filter(path1 -> path1.getPointList().size() < (grid.size() * grid.size()))
                     .collect(Collectors.toList());
 
-            pathSize.set(paths.size());
             var currentPath = paths.remove(0);
-            calculatedPaths.add(currentPath);
-            paths.addAll(new ArrayList<>(generatePaths(currentPath, grid, usedPoints)));
+            paths.addAll(new ArrayList<>(generatePaths(currentPath, grid, usedPoints)
+                                                 .filter(path1 -> path1.getPointList().size() < (grid.size() * grid.size()))
+                                                 .collect(Collectors.toList())));
             paths.stream()
                     .filter(path1 -> path1.getLastPoint().map(point -> point.equals(end)).orElse(false))
                     .findAny()

@@ -24,7 +24,7 @@ public class Main {
         grid.add(new ArrayList<>(Arrays.asList(8L, 4L, 7L, 9L, 5L, 7L, 4L, 1L, 8L, 5L, 5L, 4L, 8L, 1L, 1L, 6L, 1L, 1L, 2L, 9L)));
         grid.add(new ArrayList<>(Arrays.asList(5L, 2L, 2L, 7L, 7L, 8L, 1L, 3L, 3L, 8L, 4L, 7L, 4L, 1L, 6L, 5L, 6L, 3L, 8L, 8L)));
         grid.add(new ArrayList<>(Arrays.asList(8L, 1L, 7L, 7L, 2L, 9L, 4L, 1L, 7L, 1L, 3L, 9L, 3L, 1L, 5L, 9L, 8L, 2L, 9L, 1L)));
-        grid.add(new ArrayList<>(Arrays.asList(100L, 100L, 1L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L)));
+        grid.add(new ArrayList<>(Arrays.asList(100L, 1L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L, 100L)));
         grid.add(new ArrayList<>(Arrays.asList(3L, 5L, 2L, 3L, 8L, 7L, 7L, 4L, 1L, 8L, 9L, 3L, 3L, 5L, 9L, 7L, 7L, 4L, 2L, 1L)));
         grid.add(new ArrayList<>(Arrays.asList(4L, 3L, 4L, 5L, 1L, 9L, 5L, 4L, 1L, 8L, 2L, 7L, 3L, 1L, 8L, 4L, 2L, 8L, 4L, 3L)));
         grid.add(new ArrayList<>(Arrays.asList(3L, 7L, 9L, 6L, 4L, 2L, 7L, 8L, 7L, 5L, 1L, 8L, 3L, 5L, 8L, 1L, 8L, 4L, 9L, 3L)));
